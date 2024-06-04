@@ -63,7 +63,7 @@ async function catGrowth() {
 
             // 彼氏がいる場合、3時間ごとに1/3の確率で赤ちゃんが生まれる
             if (hasBoyfriend && Math.random() < 0.333) {
-                console.log("コウノトリが猫ちゃんを運んできたよ！");
+                console.log("コウノトリが2人の猫ちゃんを運んできたよ!");
             }
         }
     }

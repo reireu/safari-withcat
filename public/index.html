@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check Site</title>
+    <title>サイトチェック</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="room">
-        <img src="assets/images/cat.png" alt="Cat" class="cat">
+        <img src="assets/images/cat.png" alt="猫" class="cat">
         <div class="speech-bubble" id="speechBubble">こんにちは！</div>
     </div>
 
     <div class="hamburger-menu">
-        <button onclick="toggleMenu()">&#9776;</button>
-        <div class="menu-content" id="menuContent">
-            <input type="text" id="text_input" placeholder="Enter URL">
-            <button onclick="checkSite()">Check Site</button>
+        <button id="menuButton">&#9776;</button>  
+        <nav class="menu-content" id="menuContent">
+            <ul>
+                <li class="menu__item">
+                    <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="accountLink">アカウント</a>
+                </li>
+                <li class="menu__item">
+                    <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="sensitivityLink">設定</a>
+                </li>
+                <li class="menu__item">
+                    <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="familyTreeLink">家系図</a>
+                </li>
+            </ul>
+            <input type="text" id="text_input" placeholder="URLを入力">
+            <button onclick="checkSite()">サイトチェック</button>
             <div class="family-tree" id="familyTree">
                 <h3>家系図</h3>
-                <!-- 家系図の内容をここに表示 -->
             </div>
-        </div>
+        </nav>
     </div>
 
     <script src="js/main.js"></script>
     <script>
-        function toggleMenu() {
-            const menuContent = document.getElementById('menuContent');
-            menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
-        }
+        const menuButton = document.getElementById('menuButton');  // ボタンをIDで取得
+        const menuContent = document.getElementById('menuContent');
+
+        menuButton.addEventListener('click', function() {  // クリックイベントリスナーを追加
+            menuContent.classList.toggle('show');  // 可視性を制御する 'show' クラスを切り替え
+        })
+
 
         document.addEventListener('keydown', function(event) {
             if (event.key === 'ArrowLeft') {

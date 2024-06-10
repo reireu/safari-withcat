@@ -6,56 +6,122 @@
     <title>サイトチェック</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
+
+<style>
+    .room {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background: url('assets/images/pic_for_home.jpg') center / cover no-repeat;
+    }
+</style>
 <body>
-    <div class="room">
-        <img src="assets/images/cat.png" alt="猫" class="cat">
-        <div class="speech-bubble" id="speechBubble">こんにちは！</div>
-    </div>
-
     <div class="hamburger-menu">
-        <button id="menuButton">&#9776;</button>  
-        <nav class="menu-content" id="menuContent">
-            <ul>
-                <li class="menu__item">
-                    <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="accountLink">アカウント</a>
-                </li>
-                <li class="menu__item">
-                    <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="sensitivityLink">設定</a>
-                </li>
-                <li class="menu__item">
-                    <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="familyTreeLink">家系図</a>
-                </li>
-            </ul>
-            <input type="text" id="text_input" placeholder="URLを入力">
-            <button onclick="checkSite()">サイトチェック</button>
-            <div class="family-tree" id="familyTree">
-                <h3>家系図</h3>
-            </div>
-        </nav>
+        <button id="menuButton">&#9776;</button>
     </div>
 
-    <script src="js/main.js"></script>
+    <nav class="sidebar" id="sidebar">
+        <ul>
+            <li class="menu__item">
+                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="accountLink">アカウント</a>
+            </li>
+            <li class="menu__item">
+                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="settingsLink">設定</a>
+            </li>
+            <li class="menu__item">
+                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="familyTreeLink">家系図</a>
+            </li>
+            <li class="menu__item">
+                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="homeLink">ホームに戻る</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="content">
+        <div id="home" class="content-panel">
+            <div class="room"></div>
+                <img src="assets/images/cat.png" alt="猫" class="cat">
+                <div class="speech-bubble" id="speechBubble">こんにちは！</div>
+            </div>
+        </div>
+        <div id="inputContainer" class="content-panel hidden">
+            <div class="account-content">
+                <input type="text" id="text_input" placeholder="URLを入力">
+                <button onclick="checkSite()">サイトチェック</button>
+            </div>
+        </div>
+        <div id="settingsContainer" class="content-panel hidden">
+            <div class="settings-content">
+                <h3>設定</h3>
+                <p>各種設定オプションをここに配置します。</p>
+            </div>
+        </div>
+        <div id="familyTree" class="content-panel hidden">
+            <div class="family-tree-content">
+                <h3>家系図</h3>
+                <p>家系図の内容をここに表示</p>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const menuButton = document.getElementById('menuButton');  // ボタンをIDで取得
-        const menuContent = document.getElementById('menuContent');
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('menuButton');
+            const sidebar = document.getElementById('sidebar');
+            const homeLink = document.getElementById('homeLink');
+            const accountLink = document.getElementById('accountLink');
+            const settingsLink = document.getElementById('settingsLink');
+            const familyTreeLink = document.getElementById('familyTreeLink');
+            const home = document.getElementById('home');
+            const inputContainer = document.getElementById('inputContainer');
+            const settingsContainer = document.getElementById('settingsContainer');
+            const familyTree = document.getElementById('familyTree');
+            const contentPanels = document.querySelectorAll('.content-panel');
 
-        menuButton.addEventListener('click', function() {  // クリックイベントリスナーを追加
-            menuContent.classList.toggle('show');  // 可視性を制御する 'show' クラスを切り替え
-        })
+            menuButton.addEventListener('click', function() {
+                sidebar.classList.toggle('show');
+            });
 
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowLeft') {
-                // 左へ移動
-            } else if (event.key === 'ArrowRight') {
-                // 右へ移動
+            function showPanel(panel) {
+                contentPanels.forEach(function(p) {
+                    p.classList.add('hidden');
+                });
+                panel.classList.remove('hidden');
             }
-        });
 
-        function showMessage(message) {
-            const speechBubble = document.getElementById('speechBubble');
-            speechBubble.textContent = message;
-        }
+            homeLink.addEventListener('click', function() {
+                showPanel(home);
+                sidebar.classList.remove('show');
+            });
+
+            accountLink.addEventListener('click', function() {
+                showPanel(inputContainer);
+                sidebar.classList.remove('show');
+            });
+
+            settingsLink.addEventListener('click', function() {
+                showPanel(settingsContainer);
+                sidebar.classList.remove('show');
+            });
+
+            familyTreeLink.addEventListener('click', function() {
+                showPanel(familyTree);
+                sidebar.classList.remove('show');
+            });
+
+            window.checkSite = function() {
+                const url = document.getElementById('text_input').value;
+                // サイトチェックのロジックをここに追加
+                showMessage(`URLをチェックしています: ${url}`);
+            }
+
+            function showMessage(message) {
+                const speechBubble = document.getElementById('speechBubble');
+                speechBubble.textContent = message;
+            }
+
+            showPanel(home);
+        });
     </script>
 </body>
 </html>

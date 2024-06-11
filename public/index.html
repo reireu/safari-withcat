@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
         background: url('assets/images/pic_for_home.jpg') center / cover no-repeat;
     }
 </style>
+
 <body>
     <div class="hamburger-menu">
         <button id="menuButton">&#9776;</button>
@@ -40,22 +42,24 @@
     <div id="content">
         <div id="home" class="content-panel">
             <div class="room"></div>
-                <img src="assets/images/cat.png" alt="猫" class="cat">
-                <div class="speech-bubble" id="speechBubble">こんにちは！</div>
-            </div>
+            <img src="assets/images/cat.png" alt="猫" class="cat">
+            <div class="speech-bubble" id="speechBubble">こんにちは！</div>
         </div>
+
         <div id="inputContainer" class="content-panel hidden">
             <div class="account-content">
                 <input type="text" id="text_input" placeholder="URLを入力">
                 <button onclick="checkSite()">サイトチェック</button>
             </div>
         </div>
+
         <div id="settingsContainer" class="content-panel hidden">
             <div class="settings-content">
                 <h3>設定</h3>
                 <p>各種設定オプションをここに配置します。</p>
             </div>
         </div>
+
         <div id="familyTree" class="content-panel hidden">
             <div class="family-tree-content">
                 <h3>家系図</h3>
@@ -124,4 +128,5 @@
         });
     </script>
 </body>
+
 </html>

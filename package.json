@@ -1,0 +1,8 @@
+{
+  "name": "safari-withcat",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node server/server.js"
+  }
+}

@@ -105,8 +105,28 @@
             });
 
             window.checkSite = function() {
-                const url = document.getElementById('text_input').value;
-                // サイトチェックのロジックをここに追加
+                const url = document.getElementById('text_input').value.trim();
+                
+    // URLが空ならエラーメッセージ
+    if (!url) {
+        showMessage("URLを入力してください。");
+        triggerCatDamage();
+        return;
+    }
+
+    // URL形式を簡易的に検証
+    const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
+    if (!urlPattern.test(url)) {
+        showMessage("URLの形式が正しくありません。");
+        triggerCatDamage();
+        return;
+    }
+
+    // 正常なURLと判断した場合
+    showMessage(`URL「${url}」は正しそうです！`);
+    // 今後ここでバックエンドなどと通信したい場合は fetch() を追加
+}
+
                 showMessage(`URLをチェックしています: ${url}`);
             }
 

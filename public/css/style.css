@@ -80,3 +80,10 @@ body {
   padding: 10px;
   border-radius: 10px;
 }
+
+.room {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background: url('assets/images/pic_for_home.jpg') center / cover no-repeat;
+    }

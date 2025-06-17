@@ -4,4 +4,4 @@
 逆に加虐心をそそる可能性もあるので、アクセスしないことでゲームが進む要素もつけたすことで、本来の目的を促進しています。
 
 2025.6.17
-![Uploading safariwithcat_0617.png…]()
+<img width="1038" alt="safariwithcat_0617" src="https://github.com/user-attachments/assets/fce44dd5-6a2e-4fed-aa92-6f7b575838e1" />

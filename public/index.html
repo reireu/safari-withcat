@@ -1,143 +1,105 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>サイトチェック</title>
+    <title>Safari with Cat</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
     <div class="hamburger-menu">
-        <button id="menuButton">&#9776;</button>
+        <button class="hamburger-btn" id="menuButton">☰</button>
     </div>
 
     <nav class="sidebar" id="sidebar">
         <ul>
-            <li class="menu__item">
-                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="accountLink">アカウント</a>
-            </li>
-            <li class="menu__item">
-                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="settingsLink">設定</a>
-            </li>
-            <li class="menu__item">
-                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="familyTreeLink">家系図</a>
-            </li>
-            <li class="menu__item">
-                <a class="menu__link" href="#" role="menuitem" tabindex="-1" id="homeLink">ホームに戻る</a>
-            </li>
+            <li><a href="#" id="homeLink">ホーム</a></li>
+            <li><a href="#" id="accountLink">サイト管理</a></li>
+            <li><a href="#" id="settingsLink">設定</a></li>
+            <li><a href="#" id="familyTreeLink">家系図</a></li>
         </ul>
     </nav>
 
-    <div id="content">
-        <div id="home" class="content-panel">
-            <div class="room"></div>
-            <img src="assets/images/cat.jpg" alt="猫" class="cat">
-            <div class="speech-bubble" id="speechBubble">こんにちは！</div>
-        </div>
-
-        <div id="inputContainer" class="content-panel hidden">
-            <div class="account-content">
-                <input type="text" id="text_input" placeholder="URLを入力">
-                <button onclick="checkSite()">サイトチェック</button>
+    <div class="main-content" id="content">
+        <!-- ホーム画面 -->
+        <div id="home" class="content-panel active">
+            <div class="home-container">
+                <div class="room">
+                    <div class="cat-container">
+                        <div class="cat" id="catElement"></div>
+                        <div class="speech-bubble" id="speechBubble">こんにちは！元気だにゃ～</div>
+                    </div>
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="hpValue">100</div>
+                        <div class="stat-label">HP</div>
+                        <div class="hp-bar">
+                            <div class="hp-fill" id="hpFill" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="ageValue">子猫</div>
+                        <div class="stat-label">成長段階</div>
+                        <div class="age-indicator">
+                            <div class="age-stage active" id="age0">🐱</div>
+                            <div class="age-stage" id="age1">🐈</div>
+                            <div class="age-stage" id="age2">🦁</div>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="relationshipStatus">独身</div>
+                        <div class="stat-label">恋愛状況</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="settingsContainer" class="content-panel hidden">
+        <!-- サイト管理画面 -->
+        <div id="inputContainer" class="content-panel">
+            <div class="input-container">
+                <h2>ブロックサイト管理</h2>
+                <input type="url" id="urlInput" class="url-input" placeholder="ブロックしたいURLを入力 (例: https://youtube.com)">
+                <br>
+                <button class="btn" onclick="addBlockedSite()">サイトを追加</button>
+                <button class="btn" onclick="testCurrentSite()">現在のサイトをテスト</button>
+                
+                <div class="blocked-sites">
+                    <h3>ブロック中のサイト</h3>
+                    <div id="blockedSitesList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 設定画面 -->
+        <div id="settingsContainer" class="content-panel">
             <div class="settings-content">
-                <h3>設定</h3>
-                <p>各種設定オプションをここに配置します。</p>
+                <h2>設定</h2>
+                <div class="stat-item">
+                    <label>ダメージ間隔 (秒)</label>
+                    <input type="number" id="damageInterval" value="36" min="1" max="300">
+                </div>
+                <div class="stat-item">
+                    <label>成長間隔 (分)</label>
+                    <input type="number" id="growthInterval" value="60" min="1" max="1440">
+                </div>
+                <button class="btn" onclick="saveSettings()">設定を保存</button>
+                <button class="btn" onclick="resetGame()">ゲームをリセット</button>
             </div>
         </div>
 
-        <div id="familyTree" class="content-panel hidden">
+        <!-- 家系図画面 -->
+        <div id="familyTree" class="content-panel">
             <div class="family-tree-content">
-                <h3>家系図</h3>
-                <p>家系図の内容をここに表示</p>
+                <h2>家系図</h2>
+                <div id="familyTreeDisplay">
+                    <p>まだ家族はいません。猫が成長して恋人を見つけると家族が増えるかも...</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const menuButton = document.getElementById('menuButton');
-            const sidebar = document.getElementById('sidebar');
-            const homeLink = document.getElementById('homeLink');
-            const accountLink = document.getElementById('accountLink');
-            const settingsLink = document.getElementById('settingsLink');
-            const familyTreeLink = document.getElementById('familyTreeLink');
-            const home = document.getElementById('home');
-            const inputContainer = document.getElementById('inputContainer');
-            const settingsContainer = document.getElementById('settingsContainer');
-            const familyTree = document.getElementById('familyTree');
-            const contentPanels = document.querySelectorAll('.content-panel');
-
-            menuButton.addEventListener('click', function() {
-                sidebar.classList.toggle('show');
-            });
-
-            function showPanel(panel) {
-                contentPanels.forEach(function(p) {
-                    p.classList.add('hidden');
-                });
-                panel.classList.remove('hidden');
-            }
-
-            homeLink.addEventListener('click', function() {
-                showPanel(home);
-                sidebar.classList.remove('show');
-            });
-
-            accountLink.addEventListener('click', function() {
-                showPanel(inputContainer);
-                sidebar.classList.remove('show');
-            });
-
-            settingsLink.addEventListener('click', function() {
-                showPanel(settingsContainer);
-                sidebar.classList.remove('show');
-            });
-
-            familyTreeLink.addEventListener('click', function() {
-                showPanel(familyTree);
-                sidebar.classList.remove('show');
-            });
-
-            window.checkSite = function() {
-                const url = document.getElementById('text_input').value.trim();
-                
-    // URLが空ならエラーメッセージ
-    if (!url) {
-        showMessage("URLを入力してください。");
-        triggerCatDamage();
-        return;
-    }
-
-    // URL形式を簡易的に検証
-    const urlPattern = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
-    if (!urlPattern.test(url)) {
-        showMessage("URLの形式が正しくありません。");
-        triggerCatDamage();
-        return;
-    }
-
-    // 正常なURLと判断した場合
-    showMessage(`URL「${url}」は正しそうです！`);
-    // 今後ここでバックエンドなどと通信したい場合は fetch() を追加
-}
-
-                showMessage(`URLをチェックしています: ${url}`);
-            }
-
-            function showMessage(message) {
-                const speechBubble = document.getElementById('speechBubble');
-                speechBubble.textContent = message;
-            }
-
-            showPanel(home);
-        });
-    </script>
+    <script src="js/main.js"></script>
 </body>
-
 </html>
